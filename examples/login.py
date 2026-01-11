@@ -1,17 +1,16 @@
-from time import sleep
+from strategy.atr_strategy import ATRStrategy
 
-from ctpbee import CtpbeeApi, CtpBee
+from ctpbee import CtpBee, CtpbeeApi
 from ctpbee.constant import *
 
 
-class Main(CtpbeeApi):
-    def __init__(self, code="ag2406"):
-        super().__init__(code)
+class Main(ATRStrategy):
+    def __init__(self, name, code):
+        super().__init__(name, code)
         self.init = False
         self.ok = 0
         self.pos = None
         self.pos_init = False
-        self.code = code
 
     def on_tick(self, tick: TickData) -> None:
         if self.init and self.ok == 0:
@@ -30,8 +29,7 @@ class Main(CtpbeeApi):
         print(order)
 
     def on_position(self, position: PositionData) -> None:
-        pos = self.center.get_position(f"{self.code}.SHFE")
-        print(pos.long_volume, pos.short_volume)
+        pass
 
     def on_contract(self, contract: ContractData):
         if contract.symbol == self.code:
@@ -41,9 +39,9 @@ class Main(CtpbeeApi):
         self.init = True
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = CtpBee("market", __name__, refresh=True)
-    example = Main("rb2410")
+    example = Main("ag2602", "ag2602")
     app.config.from_json("config.json")
     app.add_extension(example)
     app.start(log_output=True)

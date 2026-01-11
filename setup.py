@@ -6,16 +6,25 @@ from pathlib import Path
 
 from setuptools import setup
 
-with io.open('ctpbee/__init__.py', 'rt', encoding='utf8') as f:
+with io.open("ctpbee/__init__.py", "rt", encoding="utf8") as f:
     context = f.read()
-    version = re.search(r'__version__ = \'(.*?)\'', context).group(1)
+    patterns = [
+        r'__version__\s*=\s*["\']([^"\']+)["\']',  # 标准格式
+        r'__version__\s*:\s*["\']([^"\']+)["\']',  # 可能使用冒号
+        r'version\s*=\s*["\']([^"\']+)["\']',  # 可能没有下划线
+    ]
 
+    for pattern in patterns:
+        match = re.search(pattern, context)
+        if match:
+            version = match.group(1)
+            break
 if sys.version_info < (3, 6):
     raise RuntimeError('当前ctpbee只支持python36以及更高版本/ ctpbee only support python36 and higher ')
 
 # libraries
 install_requires = ["pytz", "blinker", "requests", "simplejson", "lxml", "jinja2", "redis", "click",
-                    'cologer>=2.0', "ctpbee_api>=0.40", "numpy", "pandas"]
+                    'cologer>=2.0', "ctpbee_api>=0.40", "numpy", "pandas", "ctpbee_kline"]
 
 if sys.version_info.major == 3 and sys.version_info.minor == 6:
     install_requires.append("dataclasses")

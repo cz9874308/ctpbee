@@ -134,6 +134,14 @@ if __name__ == '__main__':
 
 更多相关信息, 请参阅[文档](http://docs.ctpbee.com)
 
+## 简单策略示例
+- [atr](examples/strategy/atr_strategy.py)
+- [bollinger](examples/strategy/bollinger_strategy.py)
+- [double_ma](examples/strategy/double_ma.py)
+- [macd](examples/strategy/macd_strategy.py)
+- [rsi](examples/strategy/rsi_strategy.py)
+
+
 ## 命令行运行效果
 
 ![avatar](source/运行.png)
